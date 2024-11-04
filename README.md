@@ -1,17 +1,24 @@
-# ROUTE進歩報告 2024/11/05
+# ROUTE進捗報告 2024/11/05
 
-## 今回までやっていたこと
-VRoid Studioを使って女の子のモデルを作成し、VRMファイルとしてBlenderにインポートした。BlenderでVRMファイルのアーマチュア（人形モデル）をBVHファイルのアーマチュア（骨格）に合わせて自動ウェイトを設定した。
+## 前回までの進捗
+VRoid Studioで女の子のモデルを作成し、VRMファイルとしてBlenderにインポートする。Blender上で、VRMファイルのアーマチュア（キャラクターの骨格）をBVHファイルのアーマチュア（モーションキャプチャの骨格）に自動ウェイトを使用して適合させる。
 
-## 今回行ったこと
+## 今回の取り組み
 ### 概要
-* 以上のプロセスをPythonで自動的に行われるように
+これらのプロセスをPythonを使って自動化するため、まずはBlenderのPython APIを利用して、VRoidモデルの腕の長さをBVHデータの腕の長さに一致させるコードを作成する。
+
+### Pythonプログラムの説明
+* VVRoidモデルの前腕と上腕がBVHデータより短いため、BVHの長さに合わせる調整を目標とする。
+* VRoidおよびBVHアーマチュアの前腕と上腕の長さを取得し、Pythonコードを用いてVRoidモデルの前腕をBVHの前腕の長さに合わせてスケーリングする。
+* 調整後のVRoidモデルとBVHの腕の長さを出力し、一致しているかどうかを確認できるようにする。
 
 ### 結果
-* `ClassA a = new ClassC();`の場合：
-![screenshot1_1](https://github.com/2023-ynu-programming-II/assignment05-liu-jie-903/assets/147288297/d4065a23-b958-446c-a42f-7c0c0f297ea8)
-* `ClassC c = new ClassA();`の場合：
-![screenshot1_2](https://github.com/2023-ynu-programming-II/assignment05-liu-jie-903/assets/147288297/a36f025e-7e4d-4302-a776-00bbeda687d4)
+* コンソール：
+![image](https://github.com/user-attachments/assets/8c9badc3-fecf-4567-a21a-a84a461e9cf2)
+
+* レイアウト：
+![image](https://github.com/user-attachments/assets/400735f2-1102-4f5c-a963-0ff2f221ccd9)
+![image](https://github.com/user-attachments/assets/897f5b55-5500-461b-b8f4-38973e97ddb2)
 
 ### 解決できなかったこと
 * このプログラムは、`main`メソッドで、`ClassC c = new ClassA();`に変化したら、コンパイルエラーとなる。この原因について考察した。
