@@ -1,0 +1,52 @@
+import bpy
+
+# アーマチュアオブジェクトを取得
+vroid_armature = bpy.data.objects.get("Armature")  # VRoidのアーマチュア名
+bvh_armature = bpy.data.objects.get("1_wayne_0_1_8")  # BVHのアーマチュア名
+
+# アーマチュアが正しく取得されたか確認
+print(f"VRoidアーマチュア取得: {vroid_armature is not None}")
+print(f"BVHアーマチュア取得: {bvh_armature is not None}")
+
+# アーマチュアが取得できなかった場合の処理
+if vroid_armature is None or bvh_armature is None:
+    print("アーマチュアが見つかりません。オブジェクト名を確認してください。")
+else:
+    # エディットモードに切り替えてボーンを取得
+    bpy.context.view_layer.objects.active = vroid_armature
+    bpy.ops.object.mode_set(mode='EDIT')
+
+    vroid_forearm = vroid_armature.data.edit_bones.get("J_Bip_L_LowerArm")
+    vroid_arm = vroid_armature.data.edit_bones.get("J_Bip_L_UpperArm")
+    bvh_forearm = bvh_armature.data.edit_bones.get("LeftForeArm")
+    bvh_arm = bvh_armature.data.edit_bones.get("LeftArm")
+
+    # ボーンが正しく取得できたかを確認
+    if vroid_forearm and vroid_arm and bvh_forearm and bvh_arm:
+        # ボーンの長さを取得する関数
+        def get_bone_length(bone):
+            return (bone.tail - bone.head).length
+
+        # BVHの前腕と上腕の長さ
+        bvh_forearm_length = get_bone_length(bvh_forearm)
+        bvh_arm_length = get_bone_length(bvh_arm)
+
+        # VRoidの前腕の長さをBVHの前腕の長さに合わせる
+        vroid_forearm_direction = (vroid_forearm.tail - vroid_forearm.head).normalized()
+        vroid_forearm.tail = vroid_forearm.head + vroid_forearm_direction * bvh_forearm_length
+
+        # VRoidの上腕の長さをBVHの上腕の長さに合わせる
+        vroid_arm_direction = (vroid_arm.tail - vroid_arm.head).normalized()
+        vroid_arm.tail = vroid_arm.head + vroid_arm_direction * bvh_arm_length
+
+        # モードを戻す
+        bpy.ops.object.mode_set(mode='OBJECT')
+
+        # 結果の長さを出力
+        print("調整後のボーンの長さ:")
+        print(f"  VRoid前腕の長さ: {get_bone_length(vroid_forearm)}")
+        print(f"  BVH前腕の長さ: {bvh_forearm_length}")
+        print(f"  VRoid上腕の長さ: {get_bone_length(vroid_arm)}")
+        print(f"  BVH上腕の長さ: {bvh_arm_length}")
+    else:
+        print("指定したボーンが見つかりません。ボーン名を確認してください。")
