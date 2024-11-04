@@ -17,6 +17,7 @@ VRoid Studioで女の子のモデルを作成し、VRMファイルとしてBlend
     - コンソール上で、VRoidモデルとBVHの腕の長さが調整後に一致していることを確認できる。
     - コンソールの結果は以下の通り。
     ![image](https://github.com/user-attachments/assets/8c9badc3-fecf-4567-a21a-a84a461e9cf2)
+    ![image](https://github.com/user-attachments/assets/e0fb7efd-ed2f-4324-8fd2-bc3d89d618ab)
 
 - **Blenderレイアウト**:
     - Blenderでのビジュアル確認結果は以下の通り。
